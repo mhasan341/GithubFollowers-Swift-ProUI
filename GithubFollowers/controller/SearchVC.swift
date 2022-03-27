@@ -12,20 +12,33 @@ class SearchVC: UIViewController {
     let logoImageView = UIImageView()
     let usernameTF = GFTextField()
     let searchButton = GFButton(title: "See Followers", withBackgroundColor: .systemGreen)
+    
+    var isUsernameEntered: Bool {
+        !usernameTF.text!.isEmpty
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
+        
+        usernameTF.delegate = self
 
         // Do any additional setup after loading the view.
         configureLogoImageView()
         configureTextField()
         configureSearchButton()
+        
+        createDismissKeyboardTapGesture()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.isNavigationBarHidden = true
+    }
+    
+    func createDismissKeyboardTapGesture(){
+        let tg = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing))
+        view.addGestureRecognizer(tg)
     }
     
     func configureLogoImageView(){
@@ -54,6 +67,7 @@ class SearchVC: UIViewController {
     
     func configureSearchButton(){
         view.addSubview(searchButton)
+        searchButton.addTarget(self, action: #selector(pushFollowerVC), for: .touchUpInside)
         
         NSLayoutConstraint.activate([
             searchButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50),
@@ -63,5 +77,27 @@ class SearchVC: UIViewController {
             
         ])
     }
+    
+    @objc func pushFollowerVC(){
+        
+        guard isUsernameEntered else{
+            presentGFAlertOnMainThread(withTitle: "Empty Username", message: "This field can't be empty", buttonTitle: "Got it!")
+            return
+        }
+        
+        let vc = FollowerListVC()
+        vc.usernmae = usernameTF.text
+        vc.title = usernameTF.text
+        
+        navigationController?.pushViewController(vc, animated: true)
+    }
 
+}
+
+extension SearchVC: UITextFieldDelegate{
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        usernameTF.resignFirstResponder()
+        pushFollowerVC()
+        return true
+    }
 }
