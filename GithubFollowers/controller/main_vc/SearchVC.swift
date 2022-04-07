@@ -56,7 +56,8 @@ class SearchVC: UIViewController {
     
     func configureTextField(){
         view.addSubview(usernameTF)
-        
+        #warning("Remove before commit")
+        usernameTF.text = "SAllen0400"
         NSLayoutConstraint.activate([
             usernameTF.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 48),
             usernameTF.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 50),
@@ -86,7 +87,7 @@ class SearchVC: UIViewController {
         }
         
         let vc = FollowerListVC()
-        vc.usernmae = usernameTF.text
+        vc.username = usernameTF.text
         vc.title = usernameTF.text
         
         navigationController?.pushViewController(vc, animated: true)

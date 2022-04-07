@@ -15,7 +15,7 @@ struct User: Codable{
     var bio: String?
     var publicRepos: Int
     var publicGists: Int
-    var htmlUrl: String?
+    var htmlUrl: String
     var followers: Int
     var following: Int
     var createdAt: String

@@ -18,6 +18,13 @@ class GFButton: UIButton {
         fatalError("init(coder:) has not been implemented")
     }
     
+    init(title: String, withBackgroundColor: UIColor) {
+        super.init(frame: .zero)
+        self.backgroundColor = withBackgroundColor
+        self.setTitle(title, for: .normal)
+        
+        configure()
+    }
     
     private func configure(){
         layer.cornerRadius = 10
@@ -26,11 +33,10 @@ class GFButton: UIButton {
         translatesAutoresizingMaskIntoConstraints = false
     }
     
-    init(title: String, withBackgroundColor: UIColor) {
-        super.init(frame: .zero)
-        self.backgroundColor = withBackgroundColor
-        self.setTitle(title, for: .normal)
-        
-        configure()
+    
+    
+    func set(backgroundColor: UIColor, buttonTitle: String){
+        self.backgroundColor = backgroundColor
+        setTitle(buttonTitle, for: .normal)
     }
 }
