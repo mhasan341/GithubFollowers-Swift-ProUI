@@ -3,9 +3,10 @@
 //  GithubFollowers
 //
 //  Created by Mahmudul Hasan on 2022-04-02.
-//
+//  creates a custom flow layout for collectionview
 
 import UIKit
+
 
 public func createFlowLayout(in view: UIView)-> UICollectionViewFlowLayout{
     

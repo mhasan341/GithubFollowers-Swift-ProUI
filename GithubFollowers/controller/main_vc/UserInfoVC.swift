@@ -18,6 +18,9 @@ class UserInfoVC: UIViewController {
     var username: String!
     weak var delegate: FollowerListVCDelegate!
     
+    let scrollView = UIScrollView()
+    let contentView = UIView()
+    
     let headerView = UIView()
     let itemViewOne = UIView()
     let itemViewTwo = UIView()
@@ -31,8 +34,10 @@ class UserInfoVC: UIViewController {
         navigationItem.rightBarButtonItem = doneButton
 
         // Do any additional setup after loading the view.
+        configureScrollView()
         layoutUI()
         getUserData()
+       
         
         
     }
@@ -58,6 +63,30 @@ class UserInfoVC: UIViewController {
         dismiss(animated: true)
     }
     
+    func configureScrollView(){
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            contentView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
+            contentView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
+            
+            contentView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor),
+            contentView.heightAnchor.constraint(equalTo: scrollView.frameLayoutGuide.heightAnchor)
+        ])
+        
+    }
+    
     private func configureVCs(user: User){
         DispatchQueue.main.async {
             
@@ -73,17 +102,17 @@ class UserInfoVC: UIViewController {
             self.add(childVC: followerVC, to: self.itemViewTwo)
             self.add(childVC: GFUserInfoHeaderVC(user: user), to: self.headerView)
             
-            self.dateLabel.text = "Github since \(user.createdAt.convertToGFDisplayFormat())"
+            self.dateLabel.text = "Github since \(user.createdAt.convertToGFDateFormat())"
         }
     }
     
 
 
     func layoutUI(){
-        view.addSubview(headerView)
-        view.addSubview(itemViewOne)
-        view.addSubview(itemViewTwo)
-        view.addSubview(dateLabel)
+        contentView.addSubview(headerView)
+        contentView.addSubview(itemViewOne)
+        contentView.addSubview(itemViewTwo)
+        contentView.addSubview(dateLabel)
         
         headerView.translatesAutoresizingMaskIntoConstraints = false
         itemViewOne.translatesAutoresizingMaskIntoConstraints = false
@@ -95,26 +124,26 @@ class UserInfoVC: UIViewController {
         let itemViewHeight: CGFloat = 140
         
         NSLayoutConstraint.activate([
-            headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            headerView.heightAnchor.constraint(equalToConstant: 180),
+            headerView.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor),
+            headerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            headerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            headerView.heightAnchor.constraint(equalToConstant: 210),
             
             itemViewOne.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: padding),
-            itemViewOne.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: padding),
-            itemViewOne.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
+            itemViewOne.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: padding),
+            itemViewOne.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding),
             itemViewOne.heightAnchor.constraint(equalToConstant: itemViewHeight),
             
             itemViewTwo.topAnchor.constraint(equalTo: itemViewOne.bottomAnchor, constant: padding),
-            itemViewTwo.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: padding),
-            itemViewTwo.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
+            itemViewTwo.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: padding),
+            itemViewTwo.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding),
             itemViewTwo.heightAnchor.constraint(equalToConstant: itemViewHeight),
             
             
             dateLabel.topAnchor.constraint(equalTo: itemViewTwo.bottomAnchor, constant: padding),
-            dateLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: padding),
-            dateLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            dateLabel.heightAnchor.constraint(equalToConstant: 18),
+            dateLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: padding),
+            dateLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding),
+            dateLabel.heightAnchor.constraint(equalToConstant: 50),
             
         ])
     }
@@ -132,7 +161,7 @@ class UserInfoVC: UIViewController {
 extension UserInfoVC: UserInfoVCDelegate{
     
     func didTapGithubProfile(for user: User) {
-        print("Profile tapped")
+        
         guard let url = URL(string: user.htmlUrl) else {
             presentGFAlertOnMainThread(withTitle: "Invalid URL", message: "Github profile not found for this user", buttonTitle: "Ok")
             return
@@ -144,7 +173,7 @@ extension UserInfoVC: UserInfoVCDelegate{
     }
     
     func didTapGetFollowers(for user: User) {
-        print("Get follower tapped")
+        
         guard user.followers != 0 else{
             presentGFAlertOnMainThread(withTitle: "No Followers", message: "This user has no followers", buttonTitle: "Got it!")
             

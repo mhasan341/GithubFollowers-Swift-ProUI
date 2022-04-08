@@ -12,6 +12,7 @@ class SearchVC: UIViewController {
     let logoImageView = UIImageView()
     let usernameTF = GFTextField()
     let searchButton = GFButton(title: "See Followers", withBackgroundColor: .systemGreen)
+    var logoImageViewTopContraints: NSLayoutConstraint!
     
     var isUsernameEntered: Bool {
         !usernameTF.text!.isEmpty
@@ -34,20 +35,25 @@ class SearchVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: true)
+        usernameTF.text?.removeAll()
     }
     
     func createDismissKeyboardTapGesture(){
-        let tg = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing))
+        let tg = UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing))
         view.addGestureRecognizer(tg)
     }
     
     func configureLogoImageView(){
+        
         view.addSubview(logoImageView)
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
-        logoImageView.image = UIImage(named: "gh-logo")
+        logoImageView.image = Images.ghLogo
+        
+        let topContraintConstant: CGFloat = DeviceTypes.isiPhoneSE || DeviceTypes.isiPhone8Zoomed ? 20: 80
+        logoImageViewTopContraints = logoImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: topContraintConstant)
+            logoImageViewTopContraints.isActive = true
         
         NSLayoutConstraint.activate([
-            logoImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 80),
             logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             logoImageView.heightAnchor.constraint(equalToConstant: 200),
             logoImageView.widthAnchor.constraint(equalToConstant: 200)
@@ -56,8 +62,7 @@ class SearchVC: UIViewController {
     
     func configureTextField(){
         view.addSubview(usernameTF)
-        #warning("Remove before commit")
-        usernameTF.text = "SAllen0400"
+        
         NSLayoutConstraint.activate([
             usernameTF.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 48),
             usernameTF.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 50),
@@ -86,9 +91,9 @@ class SearchVC: UIViewController {
             return
         }
         
-        let vc = FollowerListVC()
-        vc.username = usernameTF.text
-        vc.title = usernameTF.text
+        let vc = FollowerListVC(username: usernameTF.text!)
+        
+        usernameTF.resignFirstResponder()
         
         navigationController?.pushViewController(vc, animated: true)
     }

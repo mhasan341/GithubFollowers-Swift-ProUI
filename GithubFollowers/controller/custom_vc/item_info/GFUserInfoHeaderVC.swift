@@ -19,10 +19,18 @@ class GFUserInfoHeaderVC: UIViewController {
     let bioLabel = GFBodyLabel(textAlignment: .left)
     
     func configureUI(){
-        avatarImageView.downloadImage(from: user.avatarUrl)
+        
+        NetworkManager.shared.downloadImage(urlString: user.avatarUrl) { [weak self] image in
+            guard let self = self else{return}
+            
+            DispatchQueue.main.async {
+                self.avatarImageView.image = image
+            }
+        }
+        
         usernameLabel.text = user.login
         nameLabel.text = user.name ?? ""
-        locationImageView.image = UIImage(systemName: SFSymbols.location)
+        locationImageView.image = SFSymbols.location
         locationImageView.tintColor = .secondaryLabel
         
         locationLabel.text = user.location ?? "No Location"
@@ -93,7 +101,7 @@ class GFUserInfoHeaderVC: UIViewController {
             bioLabel.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: textImagePadding),
             bioLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
             bioLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
-            bioLabel.heightAnchor.constraint(equalToConstant: 60)
+            bioLabel.heightAnchor.constraint(equalToConstant: 90)
             
         ])
     }

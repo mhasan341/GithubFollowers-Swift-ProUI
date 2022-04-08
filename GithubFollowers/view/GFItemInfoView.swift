@@ -3,7 +3,7 @@
 //  GithubFollowers
 //
 //  Created by Mahmudul Hasan on 2022-04-07.
-//
+//  This view is reused and can be used to show more and more data
 
 import UIKit
 
@@ -52,23 +52,24 @@ class GFItemInfoView: UIView {
         ])
     }
     
+    // this function sets the card image and text based on the input value
     func set(itemInfoType: ItemInfoType, withCount count: Int){
         
         switch itemInfoType {
         case .repos:
-            symbolImageView.image = UIImage(systemName: SFSymbols.repos)
+            symbolImageView.image = SFSymbols.repos
             titleLabel.text = "Public Repos"
             
         case .gists:
-            symbolImageView.image = UIImage(systemName: SFSymbols.gists)
+            symbolImageView.image = SFSymbols.gists
             titleLabel.text = "Public Gists"
             
         case .following:
-            symbolImageView.image = UIImage(systemName: SFSymbols.following)
+            symbolImageView.image = SFSymbols.following
             titleLabel.text = "Following"
             
         case .followers:
-            symbolImageView.image = UIImage(systemName: SFSymbols.followers)
+            symbolImageView.image = SFSymbols.followers
             titleLabel.text = "Followers"
             
         }

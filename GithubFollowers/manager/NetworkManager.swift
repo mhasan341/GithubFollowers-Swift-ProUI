@@ -3,7 +3,7 @@
 //  GithubFollowers
 //
 //  Created by Mahmudul Hasan on 2022-03-29.
-//
+//  Manages all network calls for the project
 
 import UIKit
 
@@ -61,6 +61,7 @@ class NetworkManager{
         
     }
     
+    // get user profile data
     func getUserData(for username: String, completed: @escaping (Result<User, GFError>)->Void ){
         let endpoint = baseURL + "users/\(username)"
         
@@ -88,6 +89,7 @@ class NetworkManager{
             do{
                 let decoder = JSONDecoder()
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
+                decoder.dateDecodingStrategy = .iso8601
                 let user = try decoder.decode(User.self, from: data)
                 completed(.success(user))
             }catch{
@@ -101,7 +103,41 @@ class NetworkManager{
         
     }
     
-    
-    
+    // download an image if not present in cache
+    func downloadImage(urlString: String, completed: @escaping (UIImage?)-> Void){
+        // check cache
+        let cacheKey = NSString(string: urlString)
+        
+        if let image = cache.object(forKey: cacheKey){
+            completed(image)
+            return
+        }
+        
+        // not found? let's move
+        guard let url = URL(string: urlString) else{
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            
+            guard let response = response as? HTTPURLResponse, response.statusCode == 200,
+                  error == nil,
+                  let data = data,
+                  let image = UIImage(data: data) else{
+                
+                completed(nil)
+                return
+            }
+            
+            
+            self.cache.setObject(image, forKey: cacheKey)
+        
+            completed(image)
+            
+        }
+        
+        task.resume()
+        
+    }
     
 }

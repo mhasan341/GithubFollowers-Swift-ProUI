@@ -28,6 +28,18 @@ class FollowerListVC: UIViewController {
     
     var hasMoreFollowers = true
     var isSearching = false
+    var isLoadingFollowers = false
+    
+    init(username: String){
+        super.init(nibName: nil, bundle: nil)
+        self.username = username
+        
+        title = username
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -92,12 +104,14 @@ class FollowerListVC: UIViewController {
     func getFollowers(){
         
         showLoadingView()
+        isLoadingFollowers = true
         
         NetworkManager.shared.getFollowers(for: username, page: page) {[weak self] result in
             
             guard let self = self else {return}
             
             self.hideLoadingView()
+            self.isLoadingFollowers = false
             
             switch result{
             case .success(let followers):
@@ -137,6 +151,7 @@ class FollowerListVC: UIViewController {
     
     func configureDataSource(){
         dataSource = UICollectionViewDiffableDataSource<Section, Follower>(collectionView: collectionView, cellProvider: { collectionView, indexPath, follower in
+            
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FollowerCell.reuseID, for: indexPath) as! FollowerCell
             
             cell.set(follower: follower)
@@ -165,7 +180,6 @@ class FollowerListVC: UIViewController {
         searchController.searchBar.placeholder = "Search a username"
         navigationItem.searchController = searchController
         searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.delegate = self
     }
 }
 
@@ -177,7 +191,7 @@ extension FollowerListVC: FollowerListVCDelegate{
         page = 1
         followers.removeAll()
         filteredFollower.removeAll()
-        collectionView.setContentOffset(.zero, animated: true)
+        collectionView.scrollsToTop = true
         getFollowers()
     }
     

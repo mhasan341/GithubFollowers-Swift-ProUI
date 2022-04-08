@@ -11,7 +11,7 @@ import SafariServices
 fileprivate var containerView: UIView!
 
 extension UIViewController{
-    
+    // present an alert to the calling VC
     func presentGFAlertOnMainThread(withTitle: String, message: String, buttonTitle: String){
         DispatchQueue.main.async {
             let vc = GFAlertVC(title: withTitle, message: message, buttonTitle: buttonTitle)
@@ -21,7 +21,7 @@ extension UIViewController{
         }
     }
     
-    
+    // shows a loading on the calling vc with alpha background
     func showLoadingView(){
         containerView = UIView(frame: view.bounds)
         view.addSubview(containerView)
@@ -39,8 +39,8 @@ extension UIViewController{
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+            activityIndicator.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
+            activityIndicator.centerXAnchor.constraint(equalTo: containerView.centerXAnchor)
         ])
         
         activityIndicator.startAnimating()
@@ -54,9 +54,9 @@ extension UIViewController{
         }
     }
     
+    // called when no follower is found on followerListVC/FavoriteListVC
     func showEmptyStateView(with message: String, in view: UIView){
-        
-        
+
             let emptyStateView = GFEmptyStateView(message: message)
             emptyStateView.frame = view.bounds
             
@@ -64,6 +64,7 @@ extension UIViewController{
         
     }
     
+    // opens safari the url provides inside the app
     func openSafariVC(with url: URL){
         let safariVC = SFSafariViewController(url: url)
         safariVC.preferredControlTintColor = .systemGreen
