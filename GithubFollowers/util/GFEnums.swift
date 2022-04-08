@@ -12,6 +12,8 @@ enum GFError : String, Error{
     case unableToComplete = "Unable to complete your request"
     case invalidResponse = "Server returned invalid response"
     case invalidData = "The data seems to be invalid"
+    case unableToFavorite = "Can't add this user to favorite"
+    case alreadyExist = "Already exists in favorite!"
 }
 
 enum SFSymbols {
@@ -24,4 +26,8 @@ enum SFSymbols {
 
 enum ItemInfoType{
     case repos, gists, following, followers
+}
+
+enum Keys{
+    static let favorites = "Favorites"
 }

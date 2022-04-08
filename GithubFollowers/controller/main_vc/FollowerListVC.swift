@@ -35,6 +35,9 @@ class FollowerListVC: UIViewController {
         view.backgroundColor = .systemBackground
         navigationController?.navigationBar.prefersLargeTitles = true
         
+        let plusButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTapped))
+        navigationItem.rightBarButtonItem = plusButton
+        
         configureCollectionView()
         getFollowers()
         configureDataSource()
@@ -51,7 +54,39 @@ class FollowerListVC: UIViewController {
         navigationController?.setNavigationBarHidden(false, animated: true)
     }
 
-    
+    @objc func addButtonTapped(){
+        
+        showLoadingView()
+        NetworkManager.shared.getUserData(for: username) { [weak self] result in
+            
+            
+            guard let self = self else {return}
+            
+            self.hideLoadingView()
+            
+            switch result{
+            case .success(let user):
+                
+                let favorite = Follower(login: user.login, avatarUrl: user.avatarUrl)
+                
+                PersistenceManager.updateWith(favorite: favorite, actionType: .add) {[weak self] error in
+                    
+                    guard let self = self else {return}
+                    
+                    guard let error = error else {
+                        self.presentGFAlertOnMainThread(withTitle: "Success!", message: "Successfully added to favorites", buttonTitle: "Awesome!")
+                        return
+                    }
+
+                    self.presentGFAlertOnMainThread(withTitle: "Something went wrong", message: error.rawValue, buttonTitle: "Ok")
+                    
+                }
+                
+            case .failure(let error):
+                self.presentGFAlertOnMainThread(withTitle: "Something went wrong", message: error.rawValue, buttonTitle: "Ok")
+            }
+        }
+    }
     
     
     func getFollowers(){
