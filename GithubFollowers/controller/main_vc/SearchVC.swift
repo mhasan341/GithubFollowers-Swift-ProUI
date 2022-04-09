@@ -11,7 +11,7 @@ class SearchVC: UIViewController {
     
     let logoImageView = UIImageView()
     let usernameTF = GFTextField()
-    let searchButton = GFButton(title: "See Followers", withBackgroundColor: .systemGreen)
+    let searchButton = GFButton(title: "See Followers", withBackgroundColor: .systemBlue)
     var logoImageViewTopContraints: NSLayoutConstraint!
     
     var isUsernameEntered: Bool {

@@ -9,9 +9,9 @@ import Foundation
 import UIKit
 
 enum Images {
-    static let ghLogo = UIImage(named: "gh-logo")
+    static let ghLogo = UIImage(named: "headerImage")
     static let placeholder = UIImage(named: "avatar-placeholder")
-    static let emptyState = UIImage(named: "empty-state-logo")
+    static let emptyState = UIImage(named: "empty-state")
 }
 
 enum GFError : String, Error{
@@ -24,11 +24,11 @@ enum GFError : String, Error{
 }
 
 enum SFSymbols {
-    static let location = UIImage(named: "mappin.and.ellipse")
-    static let repos = UIImage(named: "folder")
-    static let gists = UIImage(named: "text.alignleft")
-    static let followers = UIImage(named: "heart")
-    static let following = UIImage(named: "person.2")
+    static let location = UIImage(systemName: "mappin.and.ellipse")
+    static let repos = UIImage(systemName: "folder")
+    static let gists = UIImage(systemName: "text.alignleft")
+    static let followers = UIImage(systemName: "heart")
+    static let following = UIImage(systemName: "person.2")
 }
 
 enum ItemInfoType{

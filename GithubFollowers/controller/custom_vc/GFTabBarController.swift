@@ -14,7 +14,7 @@ class GFTabBarController: UITabBarController {
 
         // Do any additional setup after loading the view.
         viewControllers = [createSearchNavigationController(),createFavoriteListNavigationController()]
-        UITabBar.appearance().tintColor = .systemGreen
+        UITabBar.appearance().tintColor = .systemBlue
         UITabBar.appearance().backgroundColor = .systemBackground
     }
     
