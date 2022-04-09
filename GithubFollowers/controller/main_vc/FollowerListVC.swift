@@ -114,18 +114,18 @@ class FollowerListVC: UIViewController {
             self.isLoadingFollowers = false
             
             switch result{
-            case .success(let followers):
+            case .success(let newFollowers):
                 
-                if followers.isEmpty{
+                if newFollowers.isEmpty{
                     DispatchQueue.main.async {
                         self.showEmptyStateView(with: "No follower found for this user 😥", in: self.view)
                     return
                     }
                 }
                 
-                if followers.count < 100 {self.hasMoreFollowers = false}
-                self.followers.append(contentsOf: followers)
-                self.updateData(with: followers)
+                if newFollowers.count < 100 {self.hasMoreFollowers = false}
+                self.followers.append(contentsOf: newFollowers)
+                self.updateData(with: self.followers)
                 
             case .failure(let error):
                 DispatchQueue.main.async {
@@ -165,11 +165,12 @@ class FollowerListVC: UIViewController {
         })
     }
     
-    func updateData(with filteredFollowers: [Follower]){
+    func updateData(with followerList: [Follower]){
+        
         var snapshot = NSDiffableDataSourceSnapshot<Section, Follower>()
         snapshot.appendSections([.main])
         
-        snapshot.appendItems(filteredFollowers)
+        snapshot.appendItems(followerList)
         
         
         dataSource.apply(snapshot, animatingDifferences: true, completion: nil)

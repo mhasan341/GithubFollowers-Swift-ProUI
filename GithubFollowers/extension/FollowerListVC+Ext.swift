@@ -27,7 +27,6 @@ extension FollowerListVC: UICollectionViewDelegate, UISearchResultsUpdating {
                 page += 1
                 getFollowers()
             
-            
         }
     }
     
