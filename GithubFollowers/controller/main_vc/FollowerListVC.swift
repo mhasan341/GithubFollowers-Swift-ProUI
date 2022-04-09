@@ -128,6 +128,10 @@ class FollowerListVC: UIViewController {
                 self.updateData(with: followers)
                 
             case .failure(let error):
+                DispatchQueue.main.async {
+                    self.showEmptyStateView(with: "", in: self.view)
+                return
+                }
                 self.presentGFAlertOnMainThread(withTitle: "Hold on!", message: error.rawValue, buttonTitle: "Ok")
             }
             

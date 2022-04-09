@@ -10,7 +10,11 @@ import UIKit
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
+//<a href="https://www.flaticon.com/free-icons/programmer" title="programmer icons">Programmer icons created by monkik - Flaticon</a>
+    
+//<a href="https://www.flaticon.com/free-icons/empty-state" title="empty-state icons">Empty-state icons created by Freepik - Flaticon</a>
+    
+//<a href="https://www.flaticon.com/free-icons/user" title="user icons">User icons created by Freepik - Flaticon</a>
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
