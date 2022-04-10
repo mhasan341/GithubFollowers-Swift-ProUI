@@ -23,6 +23,10 @@ There isn't much comment at all, because the code explains itself.
 ## Willing to build something together?
 My Portfolio: https://mhasan341.github.io
 
+## Licence
+Feel free to fork, open PR or do whatever you wish with this repo at your OWN RISK. PERIOD.
+
+## Attribution
 The Images/Icons are used from the following site: 
 
 https://www.flaticon.com/free-icons/programmer - Programmer icons created by monkik - Flaticon
