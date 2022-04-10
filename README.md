@@ -1,7 +1,10 @@
-# GithubFollowers-Swift-ProUI
+# GithubGeeks-Swift-ProUI
 <p align="center">
   <kbd><img height="400" src="https://github.com/mhasan341/GithubGeeks-Swift-ProUI/blob/main/banner.jpg"></kbd>
+  </p>
 Github Geeks is a simple yet powerful application to demonstrate the power of Swift Programming Language in iOS app development. This app was made as a part of my portfolio.
+
+A full video can be found here: https://youtu.be/n3_B59ncsSA
 
 This app will be updated later if time permits. Currently it built using the following capabilities
 
