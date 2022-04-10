@@ -5,7 +5,7 @@
 Github Geeks is a simple yet powerful application to demonstrate the power of Swift Programming Language in iOS app development. This app was made as a part of my portfolio.
 
 ## Video Mockup
-A full video can be found here: https://youtu.be/n3_B59ncsSA
+A full video can be found here: [Github Geeks - Youtube](https://youtu.be/n3_B59ncsSA)
 
 ## Features
 This app will be updated later if time permits. Currently it built using the following capabilities
